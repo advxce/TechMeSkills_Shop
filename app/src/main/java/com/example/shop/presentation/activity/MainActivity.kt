@@ -2,8 +2,8 @@ package com.example.shop.presentation.activity
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -38,20 +38,27 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        val parent = binding?.root
+        if (parent != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(parent) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(
+                    systemBars.left + v.paddingLeft,
+                    systemBars.top + v.paddingTop,
+                    systemBars.right + v.paddingRight,
+                    systemBars.bottom + v.paddingBottom)
+                insets
+            }
         }
 
         setupViewModel()
 
         setupAdapter()
         setupObservers()
-
+        setupEditText()
         setupButton()
     }
 
@@ -78,17 +85,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupEditText(){
+        withBinding {
+            editTitle.root.setHint("enter title")
+        }
+    }
+
     private fun setupButton() {
         withBinding {
-            addBtn.setOnClickListener {
+            addBtn.appBtn.text = ContextCompat.getString(this@MainActivity, R.string.add_button)
+            addBtn.appBtn.setOnClickListener {
                 itemViewModel?.insertItem(
                     ItemUi(
                         id = itemViewModel?.getItems()?.size?.plus(1) ?: 0,
-                        title = editTitle.text.toString(),
+                        title = editTitle.root.text.toString(),
                         marked = false
                     )
                 )
-                editTitle.setText("")
+                editTitle.root.setText("")
                 adapter?.notifyDataSetChanged()
             }
         }
