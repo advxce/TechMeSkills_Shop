@@ -5,5 +5,6 @@ import com.example.shop.domain.entity.ItemDomain
 interface ItemRepository {
     fun getAllItems(): List<ItemDomain>
     fun insertItem(item: ItemDomain)
-    fun insertAllItemsIntoFile(list: List<ItemDomain>)
-    }
+    fun insertAllItems(list: List<ItemDomain>)
+    fun deleteItem(item: ItemDomain)
+}

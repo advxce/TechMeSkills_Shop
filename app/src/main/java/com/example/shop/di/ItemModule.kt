@@ -5,6 +5,8 @@ import com.example.shop.data.ItemRepositoryImpl
 import com.example.shop.data.memory.ItemResourcesImpl
 import com.example.shop.domain.ItemResources
 import com.example.shop.domain.repository.ItemRepository
+import com.example.shop.domain.useCase.DeleteItemUseCase
+import com.example.shop.domain.useCase.DeleteItemUseCaseImpl
 
 import com.example.shop.domain.useCase.GetAllItemsUseCase
 import com.example.shop.domain.useCase.GetAllItemsUseCaseImpl
@@ -20,4 +22,6 @@ class ItemModule(context: Context) {
     val getItemUseCase: GetAllItemsUseCase = GetAllItemsUseCaseImpl(itemRepository)
     val insertItemUseCase: InsertItemUseCase = InsertItemUseCaseImpl(itemRepository)
     val makeFavoriteItemUseCase: MakeFavoriteItemUseCase = MakeFavoriteItemUseCaseImpl(itemRepository)
+
+    val deleteItemUseCase: DeleteItemUseCase = DeleteItemUseCaseImpl(itemRepository)
 }

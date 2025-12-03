@@ -15,7 +15,11 @@ class ItemRepositoryImpl(
         itemResources.insertItemIntoFile(item)
     }
 
-    override fun insertAllItemsIntoFile(list: List<ItemDomain>) {
+    override fun insertAllItems(list: List<ItemDomain>) {
         itemResources.insertAllItemsIntoFile(list = list)
+    }
+
+    override fun deleteItem(item: ItemDomain) {
+        itemResources.deleteItemFromFile(item)
     }
 }

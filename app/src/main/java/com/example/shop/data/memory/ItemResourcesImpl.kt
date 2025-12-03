@@ -39,6 +39,12 @@ class ItemResourcesImpl(
         file.writeText(jsonString)
     }
 
+    override fun deleteItemFromFile(item: ItemDomain) {
+        val items = getAllItemsFromFile().toMutableList()
+        val newItems = items.filterNot { it.id == item.id }
+        insertAllItemsIntoFile(newItems)
+    }
+
     override fun insertItemIntoFile(item: ItemDomain) {
         val items = getAllItemsFromFile().toMutableList()
         items.add(item)

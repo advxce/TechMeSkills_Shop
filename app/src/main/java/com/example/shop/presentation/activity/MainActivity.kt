@@ -15,6 +15,8 @@ import com.example.shop.presentation.adapter.ItemAdapter
 import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.factory.ItemViewModelFactory
 import com.example.shop.presentation.viewModel.ItemViewModel
+import java.time.LocalDateTime
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +32,8 @@ class MainActivity : AppCompatActivity() {
         ItemViewModelFactory(
             itemModule.getItemUseCase,
             itemModule.insertItemUseCase,
-            itemModule.makeFavoriteItemUseCase
+            itemModule.makeFavoriteItemUseCase,
+            itemModule.deleteItemUseCase
         )
     }
 
@@ -49,10 +52,22 @@ class MainActivity : AppCompatActivity() {
                     systemBars.left + v.paddingLeft,
                     systemBars.top + v.paddingTop,
                     systemBars.right + v.paddingRight,
-                    systemBars.bottom + v.paddingBottom)
+                    systemBars.bottom + v.paddingBottom
+                )
                 insets
             }
         }
+
+
+
+        adapter = ItemAdapter(
+            setCheck = {
+                itemViewModel?.changeMarkItem(it, !it.marked)
+            },
+            onDelete = {
+                itemViewModel?.deleteItem(it)
+            }
+        )
 
         setupViewModel()
 
@@ -60,6 +75,10 @@ class MainActivity : AppCompatActivity() {
         setupObservers()
         setupEditText()
         setupButton()
+        itemViewModel?.getItems()
+
+
+
     }
 
     private fun setupViewModel() {
@@ -67,17 +86,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        itemViewModel?.getItems()
 
         itemViewModel?.itemList?.observe(this) { list ->
             adapter?.submitList(list)
             Log.i("ITEM1", list.toString())
         }
     }
+
     private fun setupAdapter() {
-        adapter = ItemAdapter(emptyList<ItemUi>()) {
-            itemViewModel?.changeMarkItem(it, !it.marked)
-        }
+
 
         withBinding {
             recView.adapter = adapter
@@ -85,9 +102,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupEditText(){
+    private fun setupEditText() {
         withBinding {
-            editTitle.root.setHint("enter title")
+            editTitle.root.hint = "enter title"
         }
     }
 
@@ -97,13 +114,12 @@ class MainActivity : AppCompatActivity() {
             addBtn.appBtn.setOnClickListener {
                 itemViewModel?.insertItem(
                     ItemUi(
-                        id = itemViewModel?.getItems()?.size?.plus(1) ?: 0,
+                        id = System.currentTimeMillis(),
                         title = editTitle.root.text.toString(),
                         marked = false
                     )
                 )
                 editTitle.root.setText("")
-                adapter?.notifyDataSetChanged()
             }
         }
     }

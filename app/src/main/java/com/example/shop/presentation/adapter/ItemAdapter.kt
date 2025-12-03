@@ -9,9 +9,12 @@ import com.example.shop.presentation.diffUtil.ItemDiffUtil
 import com.example.shop.presentation.entity.ItemUi
 
 class ItemAdapter(
-    private var list: List<ItemUi>,
-    private val setCheck: (item: ItemUi) -> Unit
+    private val setCheck: (ItemUi) -> Unit,
+    private val onDelete:(ItemUi)-> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var list: MutableList<ItemUi> = mutableListOf()
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -28,9 +31,9 @@ class ItemAdapter(
     }
 
     fun submitList(newList: List<ItemUi>) {
-        val calc = DiffUtil.calculateDiff(ItemDiffUtil(list, newList))
-        list = newList
-        calc.dispatchUpdatesTo(this)
+        val diffResult = DiffUtil.calculateDiff(ItemDiffUtil(list, newList))
+        list = newList.toMutableList()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun getItemCount(): Int = list.size
@@ -43,6 +46,11 @@ class ItemAdapter(
                 setCheck(item)
             }
             binding.checkBox.isChecked = item.marked
+
+            binding.deleteBtn.text = "Delete"
+            binding.deleteBtn.setOnClickListener {
+                onDelete(item)
+            }
         }
     }
 }

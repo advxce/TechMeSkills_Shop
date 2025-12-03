@@ -16,7 +16,7 @@ class MakeFavoriteItemUseCaseImpl(
         if (index != -1) {
             val updatedItem = items[index].copy(marked = mark)
             items[index] = updatedItem
-            repository.insertAllItemsIntoFile(items)
+            repository.insertAllItems(items)
         }
     }
 }

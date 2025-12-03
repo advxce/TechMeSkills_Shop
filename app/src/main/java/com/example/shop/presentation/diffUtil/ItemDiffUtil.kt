@@ -1,11 +1,12 @@
 package com.example.shop.presentation.diffUtil
 
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import com.example.shop.presentation.entity.ItemUi
 
 class ItemDiffUtil(
+    private val oldList: List<ItemUi>,
     private val newList: List<ItemUi>,
-    private val oldList: List<ItemUi>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldList.size
@@ -19,13 +20,17 @@ class ItemDiffUtil(
         oldItemPosition: Int,
         newItemPosition: Int
     ): Boolean {
-        return oldList[oldItemPosition].hashCode() == newList[newItemPosition].hashCode()
+        val areItemsTheSame = oldList[oldItemPosition].id == newList[newItemPosition].id
+        Log.i("Util", "areItemsTheSame: "+ areItemsTheSame.toString())
+        return  areItemsTheSame
     }
 
     override fun areContentsTheSame(
         oldItemPosition: Int,
         newItemPosition: Int
     ): Boolean {
-        return oldItemPosition == newItemPosition
+        val areContentTheSame = oldList[oldItemPosition] == newList[newItemPosition]
+        Log.i("Util", "areContentsTheSame: "+ areContentTheSame.toString())
+        return areContentTheSame
     }
 }
