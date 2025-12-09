@@ -3,8 +3,8 @@ package com.example.shop.domain.repository
 import com.example.shop.domain.entity.ItemDomain
 
 interface ItemRepository {
-    fun getAllItems(): List<ItemDomain>
-    fun insertItem(item: ItemDomain)
-    fun insertAllItems(list: List<ItemDomain>)
-    fun deleteItem(item: ItemDomain)
+    suspend fun getAllItems(): List<ItemDomain>
+    suspend fun insertItem(item: ItemDomain)
+    suspend fun insertAllItems(list: List<ItemDomain>)
+    suspend fun deleteItem(item: ItemDomain)
 }

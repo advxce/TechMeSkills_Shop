@@ -1,6 +1,7 @@
 package com.example.shop.data.entity
 
 import com.example.shop.domain.entity.ItemDomain
+import com.example.shop.domain.entity.ItemState
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -22,6 +23,7 @@ fun ItemData.toDomain(): ItemDomain {
     return ItemDomain(
         id = this.id,
         title = this.title,
-        marked = this.marked
+        marked = this.marked,
+        itemState = ItemState.SUCCESS
     )
 }

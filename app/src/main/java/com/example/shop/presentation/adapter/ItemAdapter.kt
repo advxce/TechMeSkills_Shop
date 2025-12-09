@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shop.databinding.ItemShopBinding
+import com.example.shop.domain.entity.ItemState
 import com.example.shop.presentation.diffUtil.ItemDiffUtil
 import com.example.shop.presentation.entity.ItemUi
 
 class ItemAdapter(
     private val setCheck: (ItemUi) -> Unit,
-    private val onDelete:(ItemUi)-> Unit
+    private val onDelete:(ItemUi)-> Unit,
+    private val onCancel:(Long)-> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var list: MutableList<ItemUi> = mutableListOf()
@@ -50,6 +52,16 @@ class ItemAdapter(
             binding.deleteBtn.text = "Delete"
             binding.deleteBtn.setOnClickListener {
                 onDelete(item)
+            }
+            binding.cancelBtn.isEnabled = item.itemState == ItemState.LOADING
+            binding.cancelBtn.setOnClickListener {
+                onCancel(item.id)
+            }
+            binding.itemStateTxt.text = when(item.itemState){
+                ItemState.ERROR -> "error"
+                ItemState.LOADING -> "loading"
+                ItemState.SUCCESS -> "success"
+                ItemState.CANCELED -> "cancel"
             }
         }
     }

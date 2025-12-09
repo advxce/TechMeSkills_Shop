@@ -60,6 +60,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation (libs.androidx.lifecycle.ktx)
+
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
 }
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {

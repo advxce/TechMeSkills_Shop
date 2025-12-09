@@ -17,18 +17,50 @@
         android:hint="Hello World!"
          />
 
-    <include
-        layout="@layout/app_button"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/addBtn"
-        />
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:padding="8dp">
+        <include
+            layout="@layout/app_button"
+            android:id="@+id/addBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+        <include
+            android:layout_marginStart="16dp"
+            layout="@layout/app_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/loadBtn"/>
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="16dp"
         android:id="@+id/recView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_marginTop="150dp"
+        android:layout_width="200dp"
+        android:visibility="gone"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:id="@+id/textInfo"
+        android:gravity="center_horizontal"
+        android:text="Empty list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 
 </LinearLayout>
