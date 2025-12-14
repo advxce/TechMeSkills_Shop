@@ -2,6 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="itemColor">#7FD708E6</color>
-    <color name="appButtonColor">#C36FF9FF</color>
+
+    <color name="itemColor">#DDF4F4F4</color>
+    <color name="strokeColor">#D1CCCBCB</color>
+
+    <color name="appCancelButtonColor">#CCFA9797</color>
+    <color name="appDeleteButtonColor">#CCEE36F8</color>
+    <color name="appAddButtonColor">#CC49F83E</color>
+
 </resources>
