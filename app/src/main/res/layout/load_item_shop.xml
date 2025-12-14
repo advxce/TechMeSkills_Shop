@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp"
+    android:background="@drawable/item_shape">
+
+    <CheckBox
+        android:id="@+id/chkBox"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+    <TextView
+        android:id="@+id/itemTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="60"
+        android:text="@string/itemTitle"
+        android:layout_marginHorizontal="16dp"
+        />
+    <TextView
+        android:id="@+id/itemState"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="25"
+        android:layout_marginEnd="16dp"
+        android:text="@string/itemStateLoading"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/itemAppBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_cancel_shape"
+        android:text="@string/cancel_btn_txt"/>
+
+</LinearLayout>

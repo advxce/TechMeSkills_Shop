@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Shop</string>
+    <string name="add_button">Add Button</string>
+
+    <string name="cancel_btn_txt">Cancel</string>
+    <string name="delete_btn_txt">Delete</string>
+
+    <string name="itemStateError">Error</string>
+    <string name="itemStateCancel">Cancel</string>
+    <string name="itemStateSuccess">Success</string>
+    <string name="itemStateLoading">Loading..</string>
+
+    <string name="itemTitle">ItemTitle</string>
+
+    <string name="enterItemTitle">enter item title</string>
+
+    <string name="errorText">Error</string>
+    <string name="load_items">load items</string>
+    <string name="add_item">add item</string>
+
 </resources>
