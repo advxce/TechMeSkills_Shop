@@ -3,7 +3,7 @@ package com.example.shop.presentation.textWatcher
 import android.text.Editable
 import android.text.TextWatcher
 
-class SimpleTextWatcher(
+open class SimpleTextWatcher(
     private val before: ((CharSequence?, Int, Int, Int) -> Unit)? = null,
     private val on: ((CharSequence?, Int, Int, Int) -> Unit)? = null,
     private val after: ((Editable?) -> Unit)? = null,

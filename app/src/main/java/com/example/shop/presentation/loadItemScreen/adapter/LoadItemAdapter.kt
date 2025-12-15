@@ -14,7 +14,7 @@ import com.example.shop.presentation.entity.ItemUi
 class LoadItemAdapter(
     private val context: Context,
     private val onDelete: (ItemUi) -> Unit,
-    private val setCheck: (Boolean) -> Unit,
+    private val setCheck: (ItemUi) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val itemList: MutableList<ItemUi> = mutableListOf()
@@ -46,7 +46,7 @@ class LoadItemAdapter(
     inner class ItemViewHolder(private val binding: SampleItemShopBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ItemUi, context: Context) = with(binding) {
             chkBox.setOnClickListener {
-                setCheck(item.marked)
+                setCheck(item)
             }
             chkBox.isChecked = item.marked
             itemTitle.text = item.title

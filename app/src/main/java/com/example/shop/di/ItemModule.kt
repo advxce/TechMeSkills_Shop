@@ -7,6 +7,8 @@ import com.example.shop.domain.ItemResources
 import com.example.shop.domain.repository.ItemRepository
 import com.example.shop.domain.useCase.DeleteItemUseCase
 import com.example.shop.domain.useCase.DeleteItemUseCaseImpl
+import com.example.shop.domain.useCase.FindItemUseCase
+import com.example.shop.domain.useCase.FindItemUseCaseImpl
 
 import com.example.shop.domain.useCase.GetAllItemsUseCase
 import com.example.shop.domain.useCase.GetAllItemsUseCaseImpl
@@ -24,4 +26,5 @@ class ItemModule(context: Context) {
     val makeFavoriteItemUseCase: MakeFavoriteItemUseCase = MakeFavoriteItemUseCaseImpl(itemRepository)
 
     val deleteItemUseCase: DeleteItemUseCase = DeleteItemUseCaseImpl(itemRepository)
+    val findItemUseCase: FindItemUseCase = FindItemUseCaseImpl(itemRepository)
 }

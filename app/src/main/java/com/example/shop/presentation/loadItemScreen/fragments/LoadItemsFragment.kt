@@ -1,11 +1,14 @@
 package com.example.shop.presentation.loadItemScreen.fragments
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
 import com.example.shop.databinding.FragmentLoadItemsBinding
@@ -16,6 +19,8 @@ import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.loadItemScreen.adapter.LoadItemAdapter
 import com.example.shop.presentation.loadItemScreen.factory.LoadItemFactory
 import com.example.shop.presentation.loadItemScreen.viewModel.LoadItemsViewModel
+import com.example.shop.presentation.textWatcher.SimpleTextWatcher
+import kotlinx.coroutines.launch
 
 class LoadItemsFragment : Fragment() {
 
@@ -27,7 +32,12 @@ class LoadItemsFragment : Fragment() {
     }
 
     private val loadItemFactory: LoadItemFactory by lazy {
-        LoadItemFactory(di.getItemUseCase, di.deleteItemUseCase)
+        LoadItemFactory(
+            di.getItemUseCase,
+            di.deleteItemUseCase,
+            di.findItemUseCase,
+            di.makeFavoriteItemUseCase
+        )
     }
     private var loadItemViewModel: LoadItemsViewModel? = null
 
@@ -44,6 +54,7 @@ class LoadItemsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         setupButtons()
+        setupEditText()
         setupAdapter()
         setupObserver()
     }
@@ -65,6 +76,7 @@ class LoadItemsFragment : Fragment() {
             loadBtn.root.text = getString(R.string.load_items)
             loadBtn.root.setOnClickListener {
                 loadItemViewModel?.loadItems()
+                editTxtEnterTitle.root.isEnabled = true
             }
         }
     }
@@ -76,6 +88,7 @@ class LoadItemsFragment : Fragment() {
                 loadItemViewModel?.deleteItems(it)
             },
             setCheck = {
+                loadItemViewModel?.setCheck(it)
             }
         )
         withBinding {
@@ -84,24 +97,43 @@ class LoadItemsFragment : Fragment() {
         }
     }
 
+    private fun setupEditText() {
+        withBinding {
+            editTxtEnterTitle.root.isEnabled = false
+            editTxtEnterTitle.root.addTextChangedListener(object : SimpleTextWatcher() {
+                override fun afterTextChanged(p0: Editable?) {
+                    loadItemViewModel?.onSearchQuery(p0.toString())
+                }
+            })
+
+        }
+    }
+
     private fun setupObserver() {
-        loadItemViewModel?.itemListState?.observe(requireActivity()) { state ->
-            when (state) {
-                is ItemStateUi.Cancelled -> {
-                    showInfoText(state.message)
-                }
-                is ItemStateUi.Error -> {
-                    showInfoText(state.message)
-                }
-                ItemStateUi.Loading -> {
-                    showProgressBar()
-                }
-                is ItemStateUi.Success -> {
-                    showRecView()
-                    showItems(state.list)
+        viewLifecycleOwner.lifecycleScope.launch {
+            loadItemViewModel?.itemListState?.collect { state ->
+                when (state) {
+                    is ItemStateUi.Cancelled -> {
+                        showInfoText(state.message)
+                    }
+
+                    is ItemStateUi.Error -> {
+                        showInfoText(state.message)
+                    }
+
+                    ItemStateUi.Loading -> {
+                        showProgressBar()
+                    }
+
+                    is ItemStateUi.Success -> {
+                        showRecView()
+                        showItems(state.list)
+                    }
                 }
             }
         }
+
+        loadItemViewModel?.observeSearchFlow()
     }
 
     private fun showItems(list: List<ItemUi>) {
@@ -115,6 +147,7 @@ class LoadItemsFragment : Fragment() {
             progressBar.visibility = View.VISIBLE
         }
     }
+
     private fun showRecView() {
         withBinding {
             recView.visibility = View.VISIBLE
@@ -122,6 +155,7 @@ class LoadItemsFragment : Fragment() {
             progressBar.visibility = View.GONE
         }
     }
+
     private fun showInfoText(message: String) {
         withBinding {
             recView.visibility = View.GONE
