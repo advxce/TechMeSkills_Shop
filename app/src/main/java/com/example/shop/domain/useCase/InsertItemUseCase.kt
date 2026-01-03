@@ -13,21 +13,6 @@ class InsertItemUseCaseImpl(
     private val repository: ItemRepository
 ) : InsertItemUseCase {
     override suspend fun invoke(item: ItemDomain) = withContext(Dispatchers.IO) {
-        val itemId = getId()
-        val newItem = item.copy(id = itemId)
-        repository.insertItem(newItem)
-    }
-
-
-    private suspend fun getId(): Long {
-        val items = repository.getAllItems()
-        val allId = items.map { it.id }.toSet()
-        for (i in 1..allId.size) {
-            if (!allId.contains(i.toLong())) {
-                return i.toLong()
-            }
-        }
-
-        return items.size.toLong()
+        repository.insertItem(item)
     }
 }

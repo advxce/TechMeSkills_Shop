@@ -7,12 +7,11 @@ import com.example.shop.domain.useCase.InsertItemUseCase
 import com.example.shop.presentation.addItemScreen.viewModel.AddItemViewModel
 
 class AddViewModelFactory(
-    private val context: Context,
     private val insertItemUseCase: InsertItemUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AddItemViewModel::class.java)) {
-            return AddItemViewModel(context, insertItemUseCase) as T
+            return AddItemViewModel(insertItemUseCase) as T
         }
         throw IllegalArgumentException("unknown viewModel")
     }

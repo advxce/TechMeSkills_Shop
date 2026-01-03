@@ -5,13 +5,11 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
-import com.example.shop.data.network.NetworkService
 import com.example.shop.databinding.FragmentLoadItemsBinding
 import com.example.shop.di.ItemModule
 import com.example.shop.presentation.addItemScreen.fragments.AddItemFragment
@@ -21,7 +19,6 @@ import com.example.shop.presentation.loadItemScreen.adapter.LoadItemAdapter
 import com.example.shop.presentation.loadItemScreen.factory.LoadItemFactory
 import com.example.shop.presentation.loadItemScreen.viewModel.LoadItemsViewModel
 import com.example.shop.presentation.textWatcher.SimpleTextWatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoadItemsFragment : Fragment() {
@@ -30,16 +27,14 @@ class LoadItemsFragment : Fragment() {
     private var adapter: LoadItemAdapter? = null
 
     private val di: ItemModule by lazy {
-        ItemModule(requireActivity())
+        ItemModule()
     }
 
     private val loadItemFactory: LoadItemFactory by lazy {
         LoadItemFactory(
-            requireActivity(),
             di.getItemUseCase,
-            di.deleteItemUseCase,
             di.findItemUseCase,
-            di.makeFavoriteItemUseCase
+            di.getItemByIdUseCase
         )
     }
     private var loadItemViewModel: LoadItemsViewModel? = null
@@ -92,10 +87,10 @@ class LoadItemsFragment : Fragment() {
         adapter = LoadItemAdapter(
             requireActivity(),
             onDelete = {
-                loadItemViewModel?.deleteItems(it)
+
             },
             setCheck = {
-                loadItemViewModel?.setCheck(it)
+
             },
             onSelect = {
                 loadItemViewModel?.getItemById(it.id)

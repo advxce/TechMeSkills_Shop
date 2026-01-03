@@ -15,9 +15,6 @@ class GetAllItemsUseCaseImpl(
     private val repository: ItemRepository
 ) : GetAllItemsUseCase {
     override suspend fun invoke(): List<ItemDomain> = withContext(Dispatchers.IO) {
-//        delay(1000)
-//        val randExec = (1..10).random()
-//        if (randExec > 5) throw NetworkErrorException()
         return@withContext repository.getAllItems()
     }
 }

@@ -21,11 +21,11 @@ class AddItemFragment : Fragment() {
     private var binding: FragmentAddItemBinding? = null
 
     private val di: ItemModule by lazy {
-        ItemModule(requireActivity())
+        ItemModule()
     }
 
     private val addItemFactory: AddViewModelFactory by lazy {
-        AddViewModelFactory(requireActivity(), di.insertItemUseCase)
+        AddViewModelFactory( di.insertItemUseCase)
     }
 
     private var addItemViewModel: AddItemViewModel? = null
