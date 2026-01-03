@@ -15,6 +15,7 @@ class LoadItemAdapter(
     private val context: Context,
     private val onDelete: (ItemUi) -> Unit,
     private val setCheck: (ItemUi) -> Unit,
+    private val onSelect: (ItemUi) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val itemList: MutableList<ItemUi> = mutableListOf()
@@ -55,6 +56,9 @@ class LoadItemAdapter(
                 onDelete(item)
             }
             itemAppBtn.text = context.getString(R.string.delete_btn_txt)
+            root.setOnClickListener {
+                onSelect(item)
+            }
         }
     }
 }

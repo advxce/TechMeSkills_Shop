@@ -63,7 +63,6 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
 
     implementation(libs.androidx.lifecycle.ktx)
-
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
 }
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {

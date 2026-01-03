@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
+import com.example.shop.data.network.NetworkService
 import com.example.shop.databinding.FragmentLoadItemsBinding
 import com.example.shop.di.ItemModule
 import com.example.shop.presentation.addItemScreen.fragments.AddItemFragment
@@ -20,6 +21,7 @@ import com.example.shop.presentation.loadItemScreen.adapter.LoadItemAdapter
 import com.example.shop.presentation.loadItemScreen.factory.LoadItemFactory
 import com.example.shop.presentation.loadItemScreen.viewModel.LoadItemsViewModel
 import com.example.shop.presentation.textWatcher.SimpleTextWatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoadItemsFragment : Fragment() {
@@ -33,6 +35,7 @@ class LoadItemsFragment : Fragment() {
 
     private val loadItemFactory: LoadItemFactory by lazy {
         LoadItemFactory(
+            requireActivity(),
             di.getItemUseCase,
             di.deleteItemUseCase,
             di.findItemUseCase,
@@ -57,6 +60,9 @@ class LoadItemsFragment : Fragment() {
         setupEditText()
         setupAdapter()
         setupObserver()
+
+
+
     }
 
     private fun setupViewModel() {
@@ -77,6 +83,7 @@ class LoadItemsFragment : Fragment() {
             loadBtn.root.setOnClickListener {
                 loadItemViewModel?.loadItems()
                 editTxtEnterTitle.root.isEnabled = true
+
             }
         }
     }
@@ -89,6 +96,9 @@ class LoadItemsFragment : Fragment() {
             },
             setCheck = {
                 loadItemViewModel?.setCheck(it)
+            },
+            onSelect = {
+                loadItemViewModel?.getItemById(it.id)
             }
         )
         withBinding {

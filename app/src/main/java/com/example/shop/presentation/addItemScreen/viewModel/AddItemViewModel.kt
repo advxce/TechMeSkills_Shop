@@ -1,10 +1,14 @@
 package com.example.shop.presentation.addItemScreen.viewModel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shop.data.entity.toData
+import com.example.shop.data.network.NetworkService
+import com.example.shop.di.ItemModule
 import com.example.shop.domain.entity.ItemState
 import com.example.shop.domain.useCase.InsertItemUseCase
 import com.example.shop.presentation.entity.ItemUi
@@ -17,8 +21,11 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
 
 class AddItemViewModel(
+    private val context: Context,
     private val insertItemUseCase: InsertItemUseCase
 ) : ViewModel() {
+    private val di = ItemModule(context)
+
     private val _itemList = MutableLiveData<List<ItemUi>>()
     val itemList: LiveData<List<ItemUi>>
         get() = _itemList
@@ -33,7 +40,8 @@ class AddItemViewModel(
             try {
                 delay((1000L..4000L).random())
                 updateState(updatedItem, ItemState.SUCCESS)
-                insertItemUseCase.invoke(updatedItem.toDomain())
+                di.networkService.addItem(updatedItem.toDomain().toData())
+//                insertItemUseCase.invoke(updatedItem.toDomain())
             } catch (_: CancellationException) {
                 updateState(updatedItem, ItemState.CANCELED)
             } catch (_: Exception) {

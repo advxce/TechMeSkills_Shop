@@ -3,6 +3,7 @@ package com.example.shop.di
 import android.content.Context
 import com.example.shop.data.ItemRepositoryImpl
 import com.example.shop.data.memory.ItemResourcesImpl
+import com.example.shop.data.network.NetworkService
 import com.example.shop.domain.ItemResources
 import com.example.shop.domain.repository.ItemRepository
 import com.example.shop.domain.useCase.DeleteItemUseCase
@@ -27,4 +28,6 @@ class ItemModule(context: Context) {
 
     val deleteItemUseCase: DeleteItemUseCase = DeleteItemUseCaseImpl(itemRepository)
     val findItemUseCase: FindItemUseCase = FindItemUseCaseImpl(itemRepository)
+
+    val networkService = NetworkService()
 }

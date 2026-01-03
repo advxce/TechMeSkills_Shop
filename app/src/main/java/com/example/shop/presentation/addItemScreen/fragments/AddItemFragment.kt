@@ -25,7 +25,7 @@ class AddItemFragment : Fragment() {
     }
 
     private val addItemFactory: AddViewModelFactory by lazy {
-        AddViewModelFactory(di.insertItemUseCase)
+        AddViewModelFactory(requireActivity(), di.insertItemUseCase)
     }
 
     private var addItemViewModel: AddItemViewModel? = null
