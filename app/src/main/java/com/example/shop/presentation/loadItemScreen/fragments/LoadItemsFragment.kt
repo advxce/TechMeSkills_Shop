@@ -19,6 +19,7 @@ import com.example.shop.presentation.loadItemScreen.adapter.LoadItemAdapter
 import com.example.shop.presentation.loadItemScreen.factory.LoadItemFactory
 import com.example.shop.presentation.loadItemScreen.viewModel.LoadItemsViewModel
 import com.example.shop.presentation.textWatcher.SimpleTextWatcher
+import com.example.shop.presentation.updateItemScreen.fragments.UpdateItemFragment
 import kotlinx.coroutines.launch
 
 class LoadItemsFragment : Fragment() {
@@ -34,7 +35,8 @@ class LoadItemsFragment : Fragment() {
         LoadItemFactory(
             di.getItemUseCase,
             di.findItemUseCase,
-            di.getItemByIdUseCase
+            di.deleteItemUseCase,
+            di.bookmarkItemUseCase
         )
     }
     private var loadItemViewModel: LoadItemsViewModel? = null
@@ -87,13 +89,16 @@ class LoadItemsFragment : Fragment() {
         adapter = LoadItemAdapter(
             requireActivity(),
             onDelete = {
-
+                loadItemViewModel?.deleteItem(it.id)
             },
             setCheck = {
-
+                loadItemViewModel?.setItemBookmark(it.id)
             },
             onSelect = {
-                loadItemViewModel?.getItemById(it.id)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragContainerView, UpdateItemFragment.newInstance(it.id))
+                    .addToBackStack(null)
+                    .commit()
             }
         )
         withBinding {

@@ -6,33 +6,73 @@
     android:paddingHorizontal="16dp"
     android:paddingVertical="8dp"
     android:background="@drawable/item_shape"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    android:gravity="center_vertical">
 
-    <CheckBox
-        android:id="@+id/chkBox"
-        android:layout_width="30dp"
-        android:layout_height="30dp"/>
-    <TextView
-        android:id="@+id/itemTitle"
-        android:layout_width="0dp"
+    <ImageView
+        android:id="@+id/itemPicture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/java_course"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:paddingVertical="8dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="60"
-        android:text="@string/itemTitle"
-        android:layout_marginHorizontal="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <CheckBox
+            android:id="@+id/chkBox"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/itemTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="60"
+            android:layout_marginHorizontal="8dp"
+            android:text="@string/itemTitle" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_description"
         />
-    <TextView
-        android:id="@+id/itemState"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="25"
-        android:layout_marginEnd="16dp"
-        android:text="@string/itemStateLoading"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/itemAppBtn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:paddingVertical="8dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_cancel_shape"
-        android:text="@string/cancel_btn_txt"/>
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        >
+        <TextView
+            android:id="@+id/itemState"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:layout_marginEnd="16dp"
+            android:text="@string/itemStateLoading"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/itemAppBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_cancel_shape"
+            android:text="@string/cancel_btn_txt"/>
+    </LinearLayout>
+</LinearLayout>
+
+
+
 
 </LinearLayout>

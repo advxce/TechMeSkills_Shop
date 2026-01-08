@@ -68,7 +68,10 @@ dependencies {
     implementation(libs.network.okhttp.logging.interceptor)
     implementation(libs.network.retrofit)
 
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
     implementation ("com.squareup.retrofit2:converter-moshi:3.0.0")
+    implementation(libs.coil)
 
 }
 

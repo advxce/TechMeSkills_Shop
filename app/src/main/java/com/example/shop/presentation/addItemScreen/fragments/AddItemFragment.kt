@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
 import com.example.shop.databinding.FragmentAddItemBinding
+import com.example.shop.di.AppItem
 import com.example.shop.di.ItemModule
 import com.example.shop.presentation.addItemScreen.adapter.AddItemAdapter
 import com.example.shop.presentation.addItemScreen.factory.AddViewModelFactory
@@ -25,7 +27,7 @@ class AddItemFragment : Fragment() {
     }
 
     private val addItemFactory: AddViewModelFactory by lazy {
-        AddViewModelFactory( di.insertItemUseCase)
+        AddViewModelFactory(di.insertItemUseCase)
     }
 
     private var addItemViewModel: AddItemViewModel? = null
@@ -43,7 +45,6 @@ class AddItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupViewModel()
-
         setupObservers()
         setupAdapter()
         setupButtons()
@@ -60,7 +61,10 @@ class AddItemFragment : Fragment() {
             addButton.root.backgroundTintList =
                 resources.getColorStateList(R.color.appAddButtonColor, null)
             addButton.root.setOnClickListener {
-                addItemViewModel?.insertItem(editTxtEnterTitle.root.text.toString())
+                addItemViewModel?.insertItem(
+                    editTxtEnterTitle.root.text.toString(),
+                    R.drawable.java_course
+                )
                 editTxtEnterTitle.root.setText("")
             }
             backBtn.setOnClickListener {

@@ -19,6 +19,7 @@ class AddItemAdapter(
 
     private val itemList: MutableList<ItemUi> = mutableListOf()
 
+
     fun submitList(newList: List<ItemUi>) {
         val diffUtil = DiffUtil.calculateDiff(ItemDiffUtil(itemList, newList))
         itemList.clear()

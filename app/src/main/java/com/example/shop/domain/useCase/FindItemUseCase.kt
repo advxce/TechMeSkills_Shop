@@ -9,15 +9,16 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
 interface FindItemUseCase {
-    fun invoke(itemTitle: String): Flow<List<ItemDomain>>
+    fun invoke(itemList: List<ItemDomain>, itemTitle: String): Flow<List<ItemDomain>>
 }
 
 class FindItemUseCaseImpl(
     private val repository: ItemRepository
 ) : FindItemUseCase {
-    override fun invoke(itemTitle: String): Flow<List<ItemDomain>> = flow {
-        val items = repository.getAllItems()
-        val findItemsList = items.filter { it.title.startsWith(itemTitle, true) }
-        emit(findItemsList)
-    }.flowOn(Dispatchers.IO)
+    override fun invoke(itemList: List<ItemDomain>, itemTitle: String): Flow<List<ItemDomain>> =
+        flow {
+            val items = itemList
+            val findItemsList = items.filter { it.title.startsWith(itemTitle, true) }
+            emit(findItemsList)
+        }.flowOn(Dispatchers.IO)
 }

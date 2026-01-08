@@ -4,8 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.shop.R
 import com.example.shop.databinding.SampleItemShopBinding
 import com.example.shop.presentation.diffUtil.ItemDiffUtil
@@ -20,7 +23,7 @@ class LoadItemAdapter(
 
     private val itemList: MutableList<ItemUi> = mutableListOf()
 
-    fun submitList(newList: List<ItemUi>){
+    fun submitList(newList: List<ItemUi>) {
         val diffUtil = DiffUtil.calculateDiff(ItemDiffUtil(itemList, newList))
         itemList.clear()
         itemList.addAll(newList)
@@ -44,12 +47,15 @@ class LoadItemAdapter(
 
     override fun getItemCount(): Int = itemList.size
 
-    inner class ItemViewHolder(private val binding: SampleItemShopBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ItemViewHolder(private val binding: SampleItemShopBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ItemUi, context: Context) = with(binding) {
             chkBox.setOnClickListener {
                 setCheck(item)
             }
             chkBox.isChecked = item.marked
+            itemDescription.visibility = if (chkBox.isChecked) View.VISIBLE else View.GONE
+            itemDescription.text = item.description
             itemTitle.text = item.title
             itemState.visibility = View.GONE
             itemAppBtn.setOnClickListener {
@@ -58,6 +64,21 @@ class LoadItemAdapter(
             itemAppBtn.text = context.getString(R.string.delete_btn_txt)
             root.setOnClickListener {
                 onSelect(item)
+            }
+            if (item.image.isNotEmpty()) {
+                itemPicture.load(item.image) {
+                    placeholder(R.drawable.ic_launcher_background)
+                    error(R.drawable.ic_launcher_background)
+                    transformations(CircleCropTransformation())
+                }
+            } else {
+                itemPicture.load(item.localImage) {
+                    placeholder(R.drawable.ic_launcher_background)
+                    error(R.drawable.ic_launcher_background)
+                    transformations(CircleCropTransformation())
+                }
+
+
             }
         }
     }

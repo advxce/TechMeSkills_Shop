@@ -1,13 +1,18 @@
 package com.example.shop.presentation.addItemScreen.viewModel
 
+import android.content.Context
+import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shop.di.AppItem
 import com.example.shop.domain.entity.ItemState
 import com.example.shop.domain.useCase.InsertItemUseCase
 import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.entity.toDomain
+import com.example.shop.presentation.entity.toUi
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,15 +30,24 @@ class AddItemViewModel(
 
     private val jobMap = ConcurrentHashMap<Long, Job>()
 
-    fun insertItem(itemTitle: String) {
+    private val appList = AppItem::fakeStoreItems.get()
+
+    fun insertItem(itemTitle: String, itemImage: Int) {
         val itemId = System.currentTimeMillis()
-        val updatedItem = ItemUi(id = itemId, title = itemTitle, itemState = ItemState.LOADING)
+        val updatedItem = ItemUi(
+            id = itemId,
+            title = itemTitle,
+            itemState = ItemState.LOADING,
+            localImage = itemImage
+        )
         _itemList.value = _itemList.value.orEmpty() + updatedItem
         val job = viewModelScope.launch(Dispatchers.Main) {
             try {
                 delay((1000L..4000L).random())
                 updateState(updatedItem, ItemState.SUCCESS)
+                val itemDomain = updatedItem.toDomain()
                 insertItemUseCase.invoke(updatedItem.toDomain())
+                appList.add(itemDomain.toUi())
             } catch (_: CancellationException) {
                 updateState(updatedItem, ItemState.CANCELED)
             } catch (_: Exception) {
