@@ -5,8 +5,9 @@ import com.example.shop.data.entity.toDomain
 import com.example.shop.data.network.FakeStoreApi
 import com.example.shop.domain.entity.ItemDomain
 import com.example.shop.domain.repository.ItemRepository
+import javax.inject.Inject
 
-class ItemRepositoryImpl(
+class ItemRepositoryImpl @Inject constructor (
     private val fakeStoreApi: FakeStoreApi
 ) : ItemRepository {
     override suspend fun getAllItems(): List<ItemDomain> {

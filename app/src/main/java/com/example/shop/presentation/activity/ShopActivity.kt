@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.shop.R
 import com.example.shop.databinding.ActivityShopBinding
 import com.example.shop.presentation.loadItemScreen.fragments.LoadItemsFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ShopActivity : AppCompatActivity() {
 
     private var binding: ActivityShopBinding? = null

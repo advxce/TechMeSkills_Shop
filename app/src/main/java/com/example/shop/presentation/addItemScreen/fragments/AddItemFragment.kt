@@ -6,31 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
 import com.example.shop.databinding.FragmentAddItemBinding
 import com.example.shop.di.AppItem
-import com.example.shop.di.ItemModule
+
 import com.example.shop.presentation.addItemScreen.adapter.AddItemAdapter
 import com.example.shop.presentation.addItemScreen.factory.AddViewModelFactory
 import com.example.shop.presentation.addItemScreen.viewModel.AddItemViewModel
 import com.example.shop.presentation.loadItemScreen.fragments.LoadItemsFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddItemFragment : Fragment() {
 
     private var adapter: AddItemAdapter? = null
     private var binding: FragmentAddItemBinding? = null
 
-    private val di: ItemModule by lazy {
-        ItemModule()
-    }
 
-    private val addItemFactory: AddViewModelFactory by lazy {
-        AddViewModelFactory(di.insertItemUseCase)
-    }
 
-    private var addItemViewModel: AddItemViewModel? = null
+    private val addItemViewModel: AddItemViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,16 +41,11 @@ class AddItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViewModel()
         setupObservers()
         setupAdapter()
         setupButtons()
     }
 
-    private fun setupViewModel() {
-        addItemViewModel =
-            ViewModelProvider(requireActivity(), addItemFactory)[AddItemViewModel::class.java]
-    }
 
     private fun setupButtons() {
         withBinding {

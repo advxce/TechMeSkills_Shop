@@ -12,9 +12,7 @@ interface FindItemUseCase {
     fun invoke(itemList: List<ItemDomain>, itemTitle: String): Flow<List<ItemDomain>>
 }
 
-class FindItemUseCaseImpl(
-    private val repository: ItemRepository
-) : FindItemUseCase {
+class FindItemUseCaseImpl: FindItemUseCase {
     override fun invoke(itemList: List<ItemDomain>, itemTitle: String): Flow<List<ItemDomain>> =
         flow {
             val items = itemList

@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("org.jetbrains.kotlin.plugin.serialization") version "2.1.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.6"
+    alias(libs.plugins.dagger.hilt)
+    kotlin("kapt")
 }
 
 android {
@@ -72,6 +74,9 @@ dependencies {
     implementation(libs.moshi.kotlin)
     implementation ("com.squareup.retrofit2:converter-moshi:3.0.0")
     implementation(libs.coil)
+
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
 
 }
 

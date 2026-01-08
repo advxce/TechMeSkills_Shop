@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
 import com.example.shop.databinding.FragmentLoadItemsBinding
-import com.example.shop.di.ItemModule
+
 import com.example.shop.presentation.addItemScreen.fragments.AddItemFragment
 import com.example.shop.presentation.entity.ItemStateUi
 import com.example.shop.presentation.entity.ItemUi
@@ -20,26 +21,17 @@ import com.example.shop.presentation.loadItemScreen.factory.LoadItemFactory
 import com.example.shop.presentation.loadItemScreen.viewModel.LoadItemsViewModel
 import com.example.shop.presentation.textWatcher.SimpleTextWatcher
 import com.example.shop.presentation.updateItemScreen.fragments.UpdateItemFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LoadItemsFragment : Fragment() {
 
     private var binding: FragmentLoadItemsBinding? = null
     private var adapter: LoadItemAdapter? = null
 
-    private val di: ItemModule by lazy {
-        ItemModule()
-    }
 
-    private val loadItemFactory: LoadItemFactory by lazy {
-        LoadItemFactory(
-            di.getItemUseCase,
-            di.findItemUseCase,
-            di.deleteItemUseCase,
-            di.bookmarkItemUseCase
-        )
-    }
-    private var loadItemViewModel: LoadItemsViewModel? = null
+    private val loadItemViewModel: LoadItemsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +44,6 @@ class LoadItemsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViewModel()
         setupButtons()
         setupEditText()
         setupAdapter()
@@ -62,10 +53,6 @@ class LoadItemsFragment : Fragment() {
 
     }
 
-    private fun setupViewModel() {
-        loadItemViewModel =
-            ViewModelProvider(requireActivity(), loadItemFactory)[LoadItemsViewModel::class.java]
-    }
 
     private fun setupButtons() {
         withBinding {
@@ -78,7 +65,7 @@ class LoadItemsFragment : Fragment() {
 
             loadBtn.root.text = getString(R.string.load_items)
             loadBtn.root.setOnClickListener {
-                loadItemViewModel?.loadItems()
+                loadItemViewModel.loadItems()
                 editTxtEnterTitle.root.isEnabled = true
 
             }
@@ -89,10 +76,10 @@ class LoadItemsFragment : Fragment() {
         adapter = LoadItemAdapter(
             requireActivity(),
             onDelete = {
-                loadItemViewModel?.deleteItem(it.id)
+                loadItemViewModel.deleteItem(it.id)
             },
             setCheck = {
-                loadItemViewModel?.setItemBookmark(it.id)
+                loadItemViewModel.setItemBookmark(it.id)
             },
             onSelect = {
                 parentFragmentManager.beginTransaction()
@@ -112,7 +99,7 @@ class LoadItemsFragment : Fragment() {
             editTxtEnterTitle.root.isEnabled = false
             editTxtEnterTitle.root.addTextChangedListener(object : SimpleTextWatcher() {
                 override fun afterTextChanged(p0: Editable?) {
-                    loadItemViewModel?.onSearchQuery(p0.toString())
+                    loadItemViewModel.onSearchQuery(p0.toString())
                 }
             })
 
@@ -121,7 +108,7 @@ class LoadItemsFragment : Fragment() {
 
     private fun setupObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
-            loadItemViewModel?.itemListState?.collect { state ->
+            loadItemViewModel.itemListState.collect { state ->
                 when (state) {
                     is ItemStateUi.Cancelled -> {
                         showInfoText(state.message)
@@ -143,7 +130,7 @@ class LoadItemsFragment : Fragment() {
             }
         }
 
-        loadItemViewModel?.observeSearchFlow()
+        loadItemViewModel.observeSearchFlow()
     }
 
     private fun showItems(list: List<ItemUi>) {

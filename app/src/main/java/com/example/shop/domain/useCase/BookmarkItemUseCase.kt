@@ -7,10 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 interface BookmarkItemUseCase {
-    suspend operator fun invoke(id: Long, isMarked: Boolean) : ItemDomain
+    suspend operator fun invoke(id: Long, isMarked: Boolean): ItemDomain
 }
 
-class BookmarkItemUseCaseImpl() : BookmarkItemUseCase {
+class BookmarkItemUseCaseImpl : BookmarkItemUseCase {
     override suspend fun invoke(id: Long, isMarked: Boolean): ItemDomain = withContext(Dispatchers.IO) {
         val items = AppItem::fakeStoreItems.get()
         val currentItem = items.first { it.id == id }

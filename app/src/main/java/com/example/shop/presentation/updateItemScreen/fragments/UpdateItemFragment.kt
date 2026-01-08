@@ -6,33 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.shop.databinding.FragmentUpdateItemBinding
-import com.example.shop.di.ItemModule
+
 import com.example.shop.presentation.entity.ItemStateUi
 import com.example.shop.presentation.updateItemScreen.factory.UpdateItemFactory
 import com.example.shop.presentation.updateItemScreen.viewModels.UpdateItemViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class UpdateItemFragment : Fragment() {
 
     private var binding: FragmentUpdateItemBinding? = null
 
-    private val di: ItemModule by lazy {
-        ItemModule()
-    }
-
-    private val factory: UpdateItemFactory by lazy {
-        UpdateItemFactory(di.updateItemUseCase)
-    }
 
     private var itemId: Long? = null
     val newItemId: Long by lazy {
         itemId ?: throw IllegalArgumentException("Don`t have arguments")
     }
-    private var updateItemViewModel: UpdateItemViewModel? = null
+    private val updateItemViewModel: UpdateItemViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,8 +69,6 @@ class UpdateItemFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        updateItemViewModel =
-            ViewModelProvider(requireActivity(), factory)[UpdateItemViewModel::class.java]
         updateItemViewModel?.loadItem(
             newItemId
         )

@@ -10,6 +10,7 @@ import com.example.shop.domain.useCase.GetAllItemsUseCase
 import com.example.shop.presentation.entity.ItemStateUi
 import com.example.shop.presentation.entity.toDomain
 import com.example.shop.presentation.entity.toUi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -21,8 +22,10 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoadItemsViewModel(
+@HiltViewModel
+class LoadItemsViewModel @Inject constructor (
     private val getAllItemsUseCase: GetAllItemsUseCase,
     private val findItemUseCase: FindItemUseCase,
     private val deleteItemUseCase: DeleteItemUseCase,

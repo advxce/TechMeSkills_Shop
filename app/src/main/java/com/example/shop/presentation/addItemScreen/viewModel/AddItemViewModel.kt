@@ -1,8 +1,5 @@
 package com.example.shop.presentation.addItemScreen.viewModel
 
-import android.content.Context
-import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,14 +10,17 @@ import com.example.shop.domain.useCase.InsertItemUseCase
 import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.entity.toDomain
 import com.example.shop.presentation.entity.toUi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
+import javax.inject.Inject
 
-class AddItemViewModel(
+@HiltViewModel
+class AddItemViewModel @Inject constructor(
     private val insertItemUseCase: InsertItemUseCase
 ) : ViewModel() {
 

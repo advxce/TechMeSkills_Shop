@@ -15,19 +15,19 @@ import com.example.shop.domain.useCase.GetItemByIdUseCaseImpl
 import com.example.shop.domain.useCase.InsertItemUseCase
 import com.example.shop.domain.useCase.InsertItemUseCaseImpl
 import com.example.shop.domain.useCase.UpdateItemUseCaseImpl
-
-class ItemModule {
-
-
-
-    val fakeStoreApi: FakeStoreApi = RetrofitClient.api
-    val itemRepository: ItemRepository = ItemRepositoryImpl(fakeStoreApi)
-
-    val getItemByIdUseCase = GetItemByIdUseCaseImpl(itemRepository)
-    val getItemUseCase: GetAllItemsUseCase = GetAllItemsUseCaseImpl(itemRepository)
-    val insertItemUseCase: InsertItemUseCase = InsertItemUseCaseImpl(itemRepository)
-    val findItemUseCase: FindItemUseCase = FindItemUseCaseImpl(itemRepository)
-    val deleteItemUseCase = DeleteItemUseCaseImpl(itemRepository)
-    val updateItemUseCase = UpdateItemUseCaseImpl(itemRepository)
-    val bookmarkItemUseCase = BookmarkItemUseCaseImpl()
-}
+//
+//class ItemModule {
+//
+//
+//
+//    val fakeStoreApi: FakeStoreApi = RetrofitClient.api
+//    val itemRepository: ItemRepository = ItemRepositoryImpl(fakeStoreApi)
+//
+//    val getItemByIdUseCase = GetItemByIdUseCaseImpl(itemRepository)
+//    val getItemUseCase: GetAllItemsUseCase = GetAllItemsUseCaseImpl(itemRepository)
+//    val insertItemUseCase: InsertItemUseCase = InsertItemUseCaseImpl(itemRepository)
+//    val findItemUseCase: FindItemUseCase = FindItemUseCaseImpl(itemRepository)
+//    val deleteItemUseCase = DeleteItemUseCaseImpl(itemRepository)
+//    val updateItemUseCase = UpdateItemUseCaseImpl(itemRepository)
+//    val bookmarkItemUseCase = BookmarkItemUseCaseImpl()
+//}
