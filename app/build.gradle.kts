@@ -59,9 +59,22 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+    implementation(libs.androidx.lifecycle.ktx)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+    implementation(platform(libs.network.okhttp.bom))
+    implementation(libs.network.okhttp.logging.interceptor)
+    implementation(libs.network.retrofit)
+
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation ("com.squareup.retrofit2:converter-moshi:3.0.0")
+    implementation(libs.coil)
+
 }
+
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     jvmTarget = "17"
 }
