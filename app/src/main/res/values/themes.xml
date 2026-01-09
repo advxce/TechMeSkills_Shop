@@ -6,4 +6,17 @@
     </style>
 
     <style name="Theme.Shop" parent="Base.Theme.Shop" />
+
+    <style name="AppCancelButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_cancel_shape</item>
+    </style>
+
+    <style name="AppDeleteButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_delete_shape</item>
+    </style>
+
+    <style name="AppAddButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_add_shape</item>
+    </style>
+
 </resources>
