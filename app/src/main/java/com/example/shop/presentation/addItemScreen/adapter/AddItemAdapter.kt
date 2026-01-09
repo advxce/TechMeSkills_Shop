@@ -4,8 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.shop.R
 import com.example.shop.databinding.SampleItemShopBinding
 import com.example.shop.domain.entity.ItemState
@@ -57,12 +60,20 @@ class AddItemAdapter(
 
             chkBox.visibility = View.GONE
             itemTitle.text = item.title
+            itemTitle.hint = ContextCompat.getString(context, R.string.enterItemTitle)
+            itemDescription.text = item.description
+            itemDescription.hint = ContextCompat.getString(context, R.string.enterItemDescription)
 
             itemState.text = when (item.itemState) {
                 ItemState.ERROR -> context.getString(R.string.itemStateError)
                 ItemState.LOADING -> context.getString(R.string.itemStateLoading)
                 ItemState.SUCCESS -> context.getString(R.string.itemStateSuccess)
                 ItemState.CANCELED -> context.getString(R.string.itemStateCancel)
+            }
+            itemPicture.load(item.localImage) {
+                placeholder(R.drawable.ic_launcher_background)
+                error(R.drawable.ic_launcher_background)
+                transformations(CircleCropTransformation())
             }
             itemAppBtn.text = context.getString(R.string.cancel_btn_txt)
             itemAppBtn.isEnabled = item.itemState == ItemState.LOADING

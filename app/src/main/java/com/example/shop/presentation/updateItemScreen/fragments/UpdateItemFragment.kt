@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import coil.load
+import com.example.shop.R
 import com.example.shop.databinding.FragmentUpdateItemBinding
-
 import com.example.shop.presentation.entity.ItemStateUi
-import com.example.shop.presentation.updateItemScreen.factory.UpdateItemFactory
+import com.example.shop.presentation.loadItemScreen.fragments.LoadItemsFragment
 import com.example.shop.presentation.updateItemScreen.viewModels.UpdateItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -53,23 +52,36 @@ class UpdateItemFragment : Fragment() {
 
     private fun setupButtons() {
         withBinding {
-            updateItemBtn.root.text = "Update Item"
+            updateItemBtn.root.text = getString(R.string.update_item)
             updateItemBtn.root.setOnClickListener {
-                updateItemViewModel?.updateItem(
+                updateItemViewModel.updateItem(
                     itemId ?: throw IllegalArgumentException("Don`t have arguments"),
                     title = itemTitle.root.text.toString(),
                     description = itemDescription.root.text.toString(),
-                    image = "" +
-                        ""
                 )
                 itemTitle.root.setText("")
                 itemDescription.root.setText("")
+                Toast.makeText(requireActivity(), "Item successful updated", Toast.LENGTH_SHORT)
+                    .show()
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragContainerView, LoadItemsFragment())
+                    .addToBackStack(null)
+                    .commit()
+
+            }
+
+            backBtn.setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragContainerView, LoadItemsFragment())
+                    .addToBackStack(null)
+                    .commit()
             }
         }
     }
 
     private fun setupViewModel() {
-        updateItemViewModel?.loadItem(
+        updateItemViewModel.loadItem(
             newItemId
         )
     }
@@ -78,30 +90,30 @@ class UpdateItemFragment : Fragment() {
         withBinding {
             itemTitle.root.hint = "enter title"
             itemTitle.root.setText(
-                updateItemViewModel?.getItem(
+                updateItemViewModel.getItem(
                     newItemId
-                )?.title
+                ).title
             )
             itemDescription.root.hint = "enter description"
             itemDescription.root.setText(
-                updateItemViewModel?.getItem(
+                updateItemViewModel.getItem(
                     newItemId
-                )?.description
+                ).description
             )
         }
     }
 
-    private fun setupImageView(){
+    private fun setupImageView() {
         withBinding {
-            val image = updateItemViewModel?.getItem(newItemId)
-            val imageState = image?.image ?: ""
-            itemView.load(if(imageState.isNotEmpty()) image?.image else image?.localImage )
+            val image = updateItemViewModel.getItem(newItemId)
+            val imageState = image.image
+            itemView.load(if (imageState.isNotEmpty()) image.image else image.localImage)
         }
     }
 
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            updateItemViewModel?.itemState?.collect { state ->
+            updateItemViewModel.itemState.collect { state ->
                 when (state) {
                     is ItemStateUi.Cancelled -> {}
                     is ItemStateUi.Error -> {}
@@ -125,8 +137,7 @@ class UpdateItemFragment : Fragment() {
             itemDescription.root.visibility = View.VISIBLE
             updateItemBtn.root.visibility = View.VISIBLE
         }
-        Toast.makeText(requireActivity(), "Item successful updated", Toast.LENGTH_SHORT)
-            .show()
+
     }
 
     private fun showProgressBar() {

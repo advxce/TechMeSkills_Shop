@@ -20,12 +20,11 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoadItemsViewModel @Inject constructor (
+class LoadItemsViewModel @Inject constructor(
     private val getAllItemsUseCase: GetAllItemsUseCase,
     private val findItemUseCase: FindItemUseCase,
     private val deleteItemUseCase: DeleteItemUseCase,
@@ -36,13 +35,7 @@ class LoadItemsViewModel @Inject constructor (
         replay = 1
     )
 
-    private val itemList = AppItem::fakeStoreItems.get()
-
-    init {
-        viewModelScope.launch {
-            itemList.addAll(getAllItemsUseCase.invoke().map { it.toUi() })
-        }
-    }
+    private var itemList = AppItem::fakeStoreItems.get()
 
     val itemListState: SharedFlow<ItemStateUi>
         get() = _itemListState.asSharedFlow()
@@ -50,6 +43,12 @@ class LoadItemsViewModel @Inject constructor (
     private val _searchQuery = MutableSharedFlow<String>(
         replay = 1
     )
+
+    init {
+        if (itemList.isNotEmpty()) {
+            _itemListState.tryEmit(ItemStateUi.Success(itemList))
+        }
+    }
 
     fun onSearchQuery(query: String) {
         viewModelScope.launch(Dispatchers.Main) {
@@ -64,8 +63,9 @@ class LoadItemsViewModel @Inject constructor (
         viewModelScope.launch(Dispatchers.Main) {
             try {
                 delay((500L..1000L).random())
+                getAllItemsUseCase.invoke()
                 _itemListState.emit(ItemStateUi.Success(itemList))
-                println("app list Load: {${itemList.last()}}")
+                println("app list Load: {${itemList.map { it.id }}}")
             } catch (_: CancellationException) {
                 _itemListState.emit(ItemStateUi.Cancelled("Cancelled loading"))
             } catch (_: Exception) {
@@ -88,8 +88,10 @@ class LoadItemsViewModel @Inject constructor (
                 .debounce(300)
                 .distinctUntilChanged()
                 .collectLatest { query ->
-                    if (query.isBlank()) {
+                    if (query.isNotEmpty() && query.isBlank()) {
                         _itemListState.emit(ItemStateUi.Error("Cant find Item"))
+                    } else if (query.isEmpty()) {
+                        _itemListState.emit(ItemStateUi.Success(itemList))
                     } else {
                         searchItems(query)
                     }

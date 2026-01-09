@@ -47,6 +47,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/add_vec"
         android:id="@+id/addItemBtn"
+        android:visibility="gone"
         />
 
     <ProgressBar

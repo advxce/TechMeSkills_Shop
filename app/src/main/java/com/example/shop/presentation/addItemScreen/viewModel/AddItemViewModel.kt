@@ -32,11 +32,12 @@ class AddItemViewModel @Inject constructor(
 
     private val appList = AppItem::fakeStoreItems.get()
 
-    fun insertItem(itemTitle: String, itemImage: Int) {
+    fun insertItem(itemTitle: String, itemDescription:String, itemImage: Int) {
         val itemId = System.currentTimeMillis()
         val updatedItem = ItemUi(
             id = itemId,
             title = itemTitle,
+            description = itemDescription,
             itemState = ItemState.LOADING,
             localImage = itemImage
         )
@@ -48,6 +49,7 @@ class AddItemViewModel @Inject constructor(
                 val itemDomain = updatedItem.toDomain()
                 insertItemUseCase.invoke(updatedItem.toDomain())
                 appList.add(itemDomain.toUi())
+                println("list add ${appList.last()}")
             } catch (_: CancellationException) {
                 updateState(updatedItem, ItemState.CANCELED)
             } catch (_: Exception) {

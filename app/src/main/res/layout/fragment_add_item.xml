@@ -20,6 +20,14 @@
             android:hint="@string/enterItemTitle"
             android:id="@+id/editTxtEnterTitle"
             android:gravity="center"/>
+        <include
+            android:layout_marginVertical="8dp"
+            layout="@layout/sample_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enterItemDescription"
+            android:id="@+id/editTxtEnterDescription"
+            android:gravity="center"/>
 
         <include
             android:layout_width="wrap_content"

@@ -4,17 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
 import com.example.shop.databinding.FragmentAddItemBinding
-import com.example.shop.di.AppItem
-
 import com.example.shop.presentation.addItemScreen.adapter.AddItemAdapter
-import com.example.shop.presentation.addItemScreen.factory.AddViewModelFactory
 import com.example.shop.presentation.addItemScreen.viewModel.AddItemViewModel
 import com.example.shop.presentation.loadItemScreen.fragments.LoadItemsFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,8 +19,6 @@ class AddItemFragment : Fragment() {
 
     private var adapter: AddItemAdapter? = null
     private var binding: FragmentAddItemBinding? = null
-
-
 
     private val addItemViewModel: AddItemViewModel by viewModels()
 
@@ -53,11 +46,13 @@ class AddItemFragment : Fragment() {
             addButton.root.backgroundTintList =
                 resources.getColorStateList(R.color.appAddButtonColor, null)
             addButton.root.setOnClickListener {
-                addItemViewModel?.insertItem(
+                addItemViewModel.insertItem(
                     editTxtEnterTitle.root.text.toString(),
+                    editTxtEnterDescription.root.text.toString(),
                     R.drawable.java_course
                 )
                 editTxtEnterTitle.root.setText("")
+                editTxtEnterDescription.root.setText("")
             }
             backBtn.setOnClickListener {
                 parentFragmentManager.beginTransaction()
@@ -73,7 +68,7 @@ class AddItemFragment : Fragment() {
             adapter = AddItemAdapter(
                 requireActivity(),
                 onCancel = {
-                    addItemViewModel?.onCancel(it)
+                    addItemViewModel.onCancel(it)
                 },
             )
 
@@ -83,7 +78,7 @@ class AddItemFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        addItemViewModel?.itemList?.observe(viewLifecycleOwner) {
+        addItemViewModel.itemList.observe(viewLifecycleOwner) {
             adapter?.submitList(it)
         }
     }

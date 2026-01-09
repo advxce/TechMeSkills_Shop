@@ -142,6 +142,7 @@ class LoadItemsFragment : Fragment() {
             recView.visibility = View.GONE
             infoTextView.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
+            addItemBtn.visibility = View.GONE
         }
     }
 
@@ -150,6 +151,7 @@ class LoadItemsFragment : Fragment() {
             recView.visibility = View.VISIBLE
             infoTextView.visibility = View.GONE
             progressBar.visibility = View.GONE
+            addItemBtn.visibility = View.VISIBLE
         }
     }
 

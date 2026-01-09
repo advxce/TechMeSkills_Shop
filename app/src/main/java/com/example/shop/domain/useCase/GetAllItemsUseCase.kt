@@ -1,10 +1,11 @@
 package com.example.shop.domain.useCase
 
-import android.accounts.NetworkErrorException
+import com.example.shop.di.AppItem
 import com.example.shop.domain.entity.ItemDomain
 import com.example.shop.domain.repository.ItemRepository
+import com.example.shop.presentation.entity.toDomain
+import com.example.shop.presentation.entity.toUi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -15,8 +16,14 @@ interface GetAllItemsUseCase {
 class GetAllItemsUseCaseImpl @Inject constructor(
     private val repository: ItemRepository
 ) : GetAllItemsUseCase {
+    var appList = AppItem::fakeStoreItems.get()
     override suspend fun invoke(): List<ItemDomain> = withContext(Dispatchers.IO) {
-        return@withContext repository.getAllItems()
+        return@withContext if (appList.isEmpty()) {
+            appList.addAll(repository.getAllItems().map { it.toUi() })
+            println("getItems ${appList.map { it.id }}")
+            appList.map { it.toDomain() }
+        } else {
+            appList.map { it.toDomain() }
+        }
     }
 }
-

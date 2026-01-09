@@ -44,16 +44,14 @@ class UpdateItemViewModel @Inject constructor (
         }
     }
 
-    fun updateItem(id: Long, title: String, description: String, image: String) {
+    fun updateItem(id: Long, title: String, description: String) {
         viewModelScope.launch(Dispatchers.Main) {
             _itemState.value = ItemStateUi.Loading
             try {
                 val currentItem = listItems.first { it.id == id }
-                val updatedItem = currentItem.copy(title = title)
+                val updatedItem = currentItem.copy(title = title, description = description)
                 listItems.replaceAll{ if(it.id == id) updatedItem else it }
                 updateItemUseCase.invoke(id, updatedItem.toDomain())
-                println("UpdatedItem ${updateItemUseCase.invoke(id, updatedItem.toDomain())}")
-                println("list: $listItems")
 
                 _itemState.value = ItemStateUi.Success(listOf(updatedItem))
             } catch (_: Exception) {

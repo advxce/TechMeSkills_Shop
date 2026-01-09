@@ -17,5 +17,7 @@
     <string name="errorText">Error</string>
     <string name="load_items">load items</string>
     <string name="add_item">add item</string>
+    <string name="update_item">Update Item</string>
+    <string name="enterItemDescription">enter item description\n</string>
 
 </resources>
