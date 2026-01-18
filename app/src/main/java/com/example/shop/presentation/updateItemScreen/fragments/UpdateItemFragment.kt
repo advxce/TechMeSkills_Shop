@@ -1,5 +1,6 @@
 package com.example.shop.presentation.updateItemScreen.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,25 +11,34 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.shop.R
+import com.example.shop.ShopApplication
 import com.example.shop.databinding.FragmentUpdateItemBinding
 import com.example.shop.presentation.entity.ItemStateUi
-import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.loadItemScreen.fragments.LoadItemsFragment
+import com.example.shop.presentation.updateItemScreen.factory.UpdateItemViewModelFactory
 import com.example.shop.presentation.updateItemScreen.viewModels.UpdateItemViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class UpdateItemFragment : Fragment() {
 
     private var binding: FragmentUpdateItemBinding? = null
 
+    @Inject
+    lateinit var factory: UpdateItemViewModelFactory
 
     private var itemId: Long? = null
     val newItemId: Long by lazy {
         itemId ?: throw IllegalArgumentException("Don`t have arguments")
     }
-    private val updateItemViewModel: UpdateItemViewModel by viewModels()
+    private val updateItemViewModel: UpdateItemViewModel by viewModels{
+        factory
+    }
+
+    override fun onAttach(context: Context) {
+        (requireActivity().application as ShopApplication).component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

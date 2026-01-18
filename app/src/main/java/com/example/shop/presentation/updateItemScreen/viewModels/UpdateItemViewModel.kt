@@ -8,7 +8,6 @@ import com.example.shop.presentation.entity.ItemStateUi
 import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.entity.toDomain
 import com.example.shop.presentation.entity.toUi
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class UpdateItemViewModel @Inject constructor(
     private val updateItemUseCase: UpdateItemUseCase,
     private val getItemByIdUseCase: GetItemByIdUseCase

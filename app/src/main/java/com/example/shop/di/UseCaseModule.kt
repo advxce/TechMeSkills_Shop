@@ -15,11 +15,9 @@ import com.example.shop.domain.useCase.UpdateItemUseCase
 import com.example.shop.domain.useCase.UpdateItemUseCaseImpl
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
+
 
 @Module
-@InstallIn(ViewModelComponent::class)
 object UseCaseModule {
 
     @Provides

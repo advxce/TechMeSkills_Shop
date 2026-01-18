@@ -6,16 +6,16 @@ import com.example.shop.data.database.ShopDatabase
 import com.example.shop.data.database.dao.ShopDao
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
+
+import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+
 object DatabaseModule {
 
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): ShopDatabase = Room.databaseBuilder(
+    @Singleton
+    fun provideDatabase( context: Context): ShopDatabase = Room.databaseBuilder(
         context,
         ShopDatabase::class.java,
         "shop_database"
@@ -23,5 +23,6 @@ object DatabaseModule {
         .build()
 
     @Provides
+    @Singleton
     fun provideShopDao(db: ShopDatabase): ShopDao = db.shopDao()
 }

@@ -1,5 +1,6 @@
 package com.example.shop.presentation.loadItemScreen.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -7,29 +8,49 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
+import com.example.shop.ShopApplication
 import com.example.shop.databinding.FragmentLoadItemsBinding
 import com.example.shop.presentation.addItemScreen.fragments.AddItemFragment
 import com.example.shop.presentation.entity.ItemStateUi
 import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.loadItemScreen.adapter.LoadItemAdapter
+import com.example.shop.presentation.loadItemScreen.factory.LoadItemsViewModelFactory
 import com.example.shop.presentation.loadItemScreen.viewModel.LoadItemsViewModel
 import com.example.shop.presentation.textWatcher.SimpleTextWatcher
 import com.example.shop.presentation.updateItemScreen.fragments.UpdateItemFragment
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class LoadItemsFragment : Fragment() {
 
     private var binding: FragmentLoadItemsBinding? = null
     private var adapter: LoadItemAdapter? = null
 
 
-    private val loadItemViewModel: LoadItemsViewModel by activityViewModels()
+    @Inject
+    lateinit var factory: LoadItemsViewModel.Factory
+
+    private val loadItemViewModel: LoadItemsViewModel by activityViewModels {
+        object : AbstractSavedStateViewModelFactory(this, arguments) {
+            override fun <T : ViewModel> create(
+                key: String,
+                modelClass: Class<T>,
+                handle: SavedStateHandle
+            ): T = factory.create(handle) as T
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        (requireActivity().application as ShopApplication).component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

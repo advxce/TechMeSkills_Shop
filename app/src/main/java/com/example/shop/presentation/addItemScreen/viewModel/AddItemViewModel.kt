@@ -9,18 +9,16 @@ import com.example.shop.domain.useCase.GetAllItemsUseCase
 import com.example.shop.domain.useCase.InsertItemUseCase
 import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.entity.toDomain
-import com.example.shop.presentation.entity.toUi
-import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
-import javax.inject.Inject
 
-@HiltViewModel
-class AddItemViewModel @Inject constructor(
+
+class AddItemViewModel constructor(
     private val insertItemUseCase: InsertItemUseCase,
     private val getAllItemsUseCase: GetAllItemsUseCase
 ) : ViewModel() {

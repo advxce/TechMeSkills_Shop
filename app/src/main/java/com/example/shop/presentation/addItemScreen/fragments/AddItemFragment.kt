@@ -1,5 +1,6 @@
 package com.example.shop.presentation.addItemScreen.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,19 +9,30 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
+import com.example.shop.ShopApplication
 import com.example.shop.databinding.FragmentAddItemBinding
 import com.example.shop.presentation.addItemScreen.adapter.AddItemAdapter
+import com.example.shop.presentation.addItemScreen.factory.AddItemViewModelFactory
 import com.example.shop.presentation.addItemScreen.viewModel.AddItemViewModel
 import com.example.shop.presentation.loadItemScreen.fragments.LoadItemsFragment
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class AddItemFragment : Fragment() {
 
     private var adapter: AddItemAdapter? = null
     private var binding: FragmentAddItemBinding? = null
 
-    private val addItemViewModel: AddItemViewModel by viewModels()
+    @Inject
+    lateinit var factory: AddItemViewModelFactory
+
+    private val addItemViewModel: AddItemViewModel by viewModels{
+        factory
+    }
+
+    override fun onAttach(context: Context) {
+        (requireActivity().application as ShopApplication).component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

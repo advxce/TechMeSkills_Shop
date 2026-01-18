@@ -12,7 +12,9 @@ import com.example.shop.presentation.entity.ItemStateUi
 import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.entity.toDomain
 import com.example.shop.presentation.entity.toUi
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -27,14 +29,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@HiltViewModel
-class LoadItemsViewModel @Inject constructor(
+class LoadItemsViewModel @AssistedInject constructor(
     private val getAllItemsUseCase: GetAllItemsUseCase,
     private val findItemUseCase: FindItemUseCase,
     private val deleteItemUseCase: DeleteItemUseCase,
     private val updateItemUseCase: UpdateItemUseCase,
-    private val savedStateHandle: SavedStateHandle
+    @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(handle: SavedStateHandle): LoadItemsViewModel
+    }
 
     private val _itemListState = MutableSharedFlow<ItemStateUi>(
         replay = 1
