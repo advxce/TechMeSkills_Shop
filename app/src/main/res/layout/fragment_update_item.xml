@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <FrameLayout
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        >
+        <ProgressBar
+
+            android:layout_gravity="center"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            />
+    </FrameLayout>
+    <include
+        android:id="@+id/item_title"
+        layout="@layout/sample_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include
+        android:layout_marginTop="8dp"
+        android:id="@+id/item_description"
+        layout="@layout/sample_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/itemView"
+        android:layout_marginVertical="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:contentDescription="image"
+        android:scaleType="fitCenter"
+        android:src="@drawable/java_course"/>
+
+    <include
+        android:id="@+id/updateItemBtn"
+        layout="@layout/sample_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_margin="16dp"
+            android:id="@+id/backBtn"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_icon"
+            android:layout_gravity="bottom|start"/>
+    </FrameLayout>
+
+
+
+
+</LinearLayout>
