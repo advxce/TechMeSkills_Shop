@@ -50,7 +50,7 @@
         android:visibility="gone"
         />
 
-    <ProgressBar
+    <com.example.shop.utils.CustomProgress
         android:id="@+id/progressBar"
         android:layout_width="200dp"
         android:layout_height="200dp"

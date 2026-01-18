@@ -68,6 +68,7 @@ class LoadItemsViewModel @Inject constructor(
     fun loadItems() {
         _itemListState.tryEmit(ItemStateUi.Loading)
         viewModelScope.launch(Dispatchers.Main) {
+            delay(3000)
             try {
                 savedStateHandle["item_state"] = true
                 println(itemState.value)

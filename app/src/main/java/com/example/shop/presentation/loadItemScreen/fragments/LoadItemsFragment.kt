@@ -140,6 +140,7 @@ class LoadItemsFragment : Fragment() {
             recView.visibility = View.GONE
             infoTextView.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
+            progressBar.startCustomAnimation()
             addItemBtn.visibility = View.GONE
         }
     }
@@ -149,6 +150,7 @@ class LoadItemsFragment : Fragment() {
             recView.visibility = View.VISIBLE
             infoTextView.visibility = View.GONE
             progressBar.visibility = View.GONE
+            progressBar.stopCustomAnimation()
             addItemBtn.visibility = View.VISIBLE
         }
     }
@@ -158,13 +160,14 @@ class LoadItemsFragment : Fragment() {
             recView.visibility = View.GONE
             infoTextView.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
-
+            progressBar.stopCustomAnimation()
             infoTextView.text = message
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding?.progressBar?.stopCustomAnimation()
         binding = null
     }
 
