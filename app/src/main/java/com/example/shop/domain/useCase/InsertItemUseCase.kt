@@ -13,7 +13,8 @@ interface InsertItemUseCase {
 class InsertItemUseCaseImpl @Inject constructor(
     private val repository: ItemRepository
 ) : InsertItemUseCase {
-    override suspend fun invoke(item: ItemDomain): ItemDomain = withContext(Dispatchers.IO) {
-       return@withContext repository.insertItem(item)
+    override suspend fun invoke(item: ItemDomain) = withContext(Dispatchers.IO) {
+       repository.insertItem(item)
+        return@withContext item
     }
 }

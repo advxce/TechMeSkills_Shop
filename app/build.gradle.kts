@@ -72,11 +72,16 @@ dependencies {
 
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
-    implementation ("com.squareup.retrofit2:converter-moshi:3.0.0")
+    implementation(libs.converter.moshi)
     implementation(libs.coil)
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
+
 
 }
 

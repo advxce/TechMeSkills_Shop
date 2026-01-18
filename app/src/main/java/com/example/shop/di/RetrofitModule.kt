@@ -1,7 +1,6 @@
 package com.example.shop.di
 
 import com.example.shop.data.network.FakeStoreApi
-import com.example.shop.data.network.RetrofitClient
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

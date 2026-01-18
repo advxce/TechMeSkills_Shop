@@ -1,6 +1,6 @@
 package com.example.shop.di
 
-import com.example.shop.data.ItemRepositoryImpl
+import com.example.shop.data.repository.ItemRepositoryImpl
 import com.example.shop.domain.repository.ItemRepository
 import dagger.Binds
 import dagger.Module

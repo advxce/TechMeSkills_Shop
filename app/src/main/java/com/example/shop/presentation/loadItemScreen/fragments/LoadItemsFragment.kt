@@ -6,18 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
 import com.example.shop.databinding.FragmentLoadItemsBinding
-
 import com.example.shop.presentation.addItemScreen.fragments.AddItemFragment
 import com.example.shop.presentation.entity.ItemStateUi
 import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.loadItemScreen.adapter.LoadItemAdapter
-import com.example.shop.presentation.loadItemScreen.factory.LoadItemFactory
 import com.example.shop.presentation.loadItemScreen.viewModel.LoadItemsViewModel
 import com.example.shop.presentation.textWatcher.SimpleTextWatcher
 import com.example.shop.presentation.updateItemScreen.fragments.UpdateItemFragment
@@ -31,7 +29,7 @@ class LoadItemsFragment : Fragment() {
     private var adapter: LoadItemAdapter? = null
 
 
-    private val loadItemViewModel: LoadItemsViewModel by viewModels()
+    private val loadItemViewModel: LoadItemsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,7 +74,7 @@ class LoadItemsFragment : Fragment() {
         adapter = LoadItemAdapter(
             requireActivity(),
             onDelete = {
-                loadItemViewModel.deleteItem(it.id)
+                loadItemViewModel.deleteItem(it)
             },
             setCheck = {
                 loadItemViewModel.setItemBookmark(it.id)

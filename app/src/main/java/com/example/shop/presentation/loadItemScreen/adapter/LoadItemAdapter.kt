@@ -50,10 +50,14 @@ class LoadItemAdapter(
     inner class ItemViewHolder(private val binding: SampleItemShopBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ItemUi, context: Context) = with(binding) {
+
+            val state = item.marked
+
             chkBox.setOnClickListener {
+                chkBox.isChecked = !state
                 setCheck(item)
             }
-            chkBox.isChecked = item.marked
+            chkBox.isChecked = state
             itemDescription.visibility = if (chkBox.isChecked) View.VISIBLE else View.GONE
             itemDescription.text = item.description
             itemTitle.text = item.title

@@ -12,6 +12,7 @@ import coil.load
 import com.example.shop.R
 import com.example.shop.databinding.FragmentUpdateItemBinding
 import com.example.shop.presentation.entity.ItemStateUi
+import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.loadItemScreen.fragments.LoadItemsFragment
 import com.example.shop.presentation.updateItemScreen.viewModels.UpdateItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -89,25 +90,36 @@ class UpdateItemFragment : Fragment() {
     private fun setupEditTexts() {
         withBinding {
             itemTitle.root.hint = "enter title"
-            itemTitle.root.setText(
-                updateItemViewModel.getItem(
-                    newItemId
-                ).title
-            )
+            lifecycleScope.launch {
+                itemTitle.root.setText(
+                    updateItemViewModel.getItem(
+                        newItemId
+                    ).title
+                )
+            }
+
             itemDescription.root.hint = "enter description"
-            itemDescription.root.setText(
-                updateItemViewModel.getItem(
-                    newItemId
-                ).description
-            )
+            lifecycleScope.launch {
+                itemDescription.root.setText(
+                    updateItemViewModel.getItem(
+                        newItemId
+                    ).description
+                )
+            }
+
         }
     }
 
     private fun setupImageView() {
         withBinding {
-            val image = updateItemViewModel.getItem(newItemId)
-            val imageState = image.image
-            itemView.load(if (imageState.isNotEmpty()) image.image else image.localImage)
+
+            lifecycleScope.launch {
+                val image = updateItemViewModel.getItem(newItemId)
+                val imageState = image.image
+                itemView.load(if (imageState.isNotEmpty()) image.image else image.localImage)
+            }
+
+
         }
     }
 

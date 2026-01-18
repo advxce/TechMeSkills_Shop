@@ -1,7 +1,6 @@
 package com.example.shop.data.network
 
-import android.content.ClipData
-import com.example.shop.data.entity.ItemData
+import com.example.shop.data.network.model.ItemData
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

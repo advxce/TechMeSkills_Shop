@@ -1,7 +1,5 @@
 package com.example.shop.data.network
 
-import com.example.shop.data.entity.ItemData
-import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

@@ -1,6 +1,8 @@
 package com.example.shop.presentation.activity
 
+import android.animation.ValueAnimator
 import android.os.Bundle
+import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.example.shop.R
 import com.example.shop.databinding.ActivityShopBinding
@@ -22,6 +24,9 @@ class ShopActivity : AppCompatActivity() {
                 .addToBackStack(null)
                 .commit()
         }
+
+
+
     }
 
     override fun onDestroy() {

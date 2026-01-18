@@ -7,7 +7,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 interface UpdateItemUseCase {
-    suspend operator fun invoke(id: Long, item: ItemDomain): ItemDomain
+    suspend operator fun invoke(id: Long, item: ItemDomain)
 }
 
 class UpdateItemUseCaseImpl @Inject constructor(
@@ -16,7 +16,7 @@ class UpdateItemUseCaseImpl @Inject constructor(
     override suspend fun invoke(
         id: Long,
         item: ItemDomain
-    ): ItemDomain = withContext(Dispatchers.IO) {
-        return@withContext repository.updateItem(id, item)
+    ) = withContext(Dispatchers.IO) {
+        repository.updateItem(id, item)
     }
 }

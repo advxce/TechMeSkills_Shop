@@ -7,13 +7,13 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 interface DeleteItemUseCase {
-    suspend operator fun invoke(id: Long): ItemDomain
+    suspend operator fun invoke(item: ItemDomain)
 }
 
 class DeleteItemUseCaseImpl @Inject constructor (
     private val repository: ItemRepository
 ) : DeleteItemUseCase {
-    override suspend fun invoke(id: Long): ItemDomain = withContext(Dispatchers.IO) {
-        return@withContext repository.deleteItem(id)
+    override suspend fun invoke(item: ItemDomain) = withContext(Dispatchers.IO) {
+        repository.deleteItem(item)
     }
 }

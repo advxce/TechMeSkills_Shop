@@ -1,8 +1,6 @@
 package com.example.shop.di
 
 import com.example.shop.domain.repository.ItemRepository
-import com.example.shop.domain.useCase.BookmarkItemUseCase
-import com.example.shop.domain.useCase.BookmarkItemUseCaseImpl
 import com.example.shop.domain.useCase.DeleteItemUseCase
 import com.example.shop.domain.useCase.DeleteItemUseCaseImpl
 import com.example.shop.domain.useCase.FindItemUseCase
@@ -47,6 +45,4 @@ object UseCaseModule {
     @Provides
     fun provideFindItemUseCase(): FindItemUseCase = FindItemUseCaseImpl()
 
-    @Provides
-    fun provideBookmarkItemUseCase(): BookmarkItemUseCase = BookmarkItemUseCaseImpl()
 }

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shop.di.AppItem
 import com.example.shop.domain.entity.ItemState
+import com.example.shop.domain.useCase.GetAllItemsUseCase
 import com.example.shop.domain.useCase.InsertItemUseCase
 import com.example.shop.presentation.entity.ItemUi
 import com.example.shop.presentation.entity.toDomain
@@ -21,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddItemViewModel @Inject constructor(
-    private val insertItemUseCase: InsertItemUseCase
+    private val insertItemUseCase: InsertItemUseCase,
+    private val getAllItemsUseCase: GetAllItemsUseCase
 ) : ViewModel() {
 
     private val _itemList = MutableLiveData<List<ItemUi>>()
@@ -29,8 +30,6 @@ class AddItemViewModel @Inject constructor(
         get() = _itemList
 
     private val jobMap = ConcurrentHashMap<Long, Job>()
-
-    private val appList = AppItem::fakeStoreItems.get()
 
     fun insertItem(itemTitle: String, itemDescription:String, itemImage: Int) {
         val itemId = System.currentTimeMillis()
@@ -46,10 +45,11 @@ class AddItemViewModel @Inject constructor(
             try {
                 delay((1000L..4000L).random())
                 updateState(updatedItem, ItemState.SUCCESS)
-                val itemDomain = updatedItem.toDomain()
-                insertItemUseCase.invoke(updatedItem.toDomain())
-                appList.add(itemDomain.toUi())
-                println("list add ${appList.last()}")
+                println("add" + updatedItem)
+                val addedItem = insertItemUseCase.invoke(updatedItem.toDomain())
+                println("add" + addedItem)
+                val itemList = getAllItemsUseCase.invoke()
+                println("add ${itemList.map { it.localImage }}")
             } catch (_: CancellationException) {
                 updateState(updatedItem, ItemState.CANCELED)
             } catch (_: Exception) {

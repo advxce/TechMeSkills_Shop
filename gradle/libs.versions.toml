@@ -19,6 +19,8 @@ moshi = "1.14.0"
 coil = "2.4.0"
 hilt = "2.57.1"
 hilt-navigation = "1.3.0"
+room = "2.8.1"
+
 
 [libraries]
 androidx-lifecycle-ktx = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodel"}
@@ -39,9 +41,16 @@ network-okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
 network-okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+
+converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit"}
+
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+
+room-runtime = {group = "androidx.room", name = "room-runtime", version.ref = "room"}
+room-compiler = {group = "androidx.room", name = "room-compiler", version.ref = "room"}
+room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
